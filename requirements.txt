@@ -1,0 +1,5 @@
+Flask
+Flask-RESTful # installs flask as well
+Flask-JWT
+Flask-SQLAlchemy
+uwsgi
