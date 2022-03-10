@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
@@ -10,7 +12,12 @@ from security import authenticate, identity
 
 app = Flask(__name__)
 app.secret_key = 'ak'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+ # For Heroku Postgres get 'DATABASE_URL' from environment vars and if not there, get sqlite connection string
+ # https://help.heroku.com/ZKNTJQSK/why-is-sqlalchemy-1-4-x-not-connecting-to-heroku-postgres
+uri = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 api = Api(app)
 jwt = JWT(app, authenticate, identity) # Creeates a new endpoint /auth

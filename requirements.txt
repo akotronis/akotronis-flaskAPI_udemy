@@ -2,4 +2,6 @@ Flask
 Flask-RESTful # installs flask as well
 Flask-JWT
 Flask-SQLAlchemy
-uwsgi
+#######
+uwsgi # For Heroku deployment
+psycopg2 # To use Postgres in Heroku
